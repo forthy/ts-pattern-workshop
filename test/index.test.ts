@@ -8,9 +8,11 @@ import { fail } from 'assert'
 
 describe('ts-pattern samples', () => {
   it('Only a person who is old enough can smoke', () => {
+    const illegalSmokingBirthYear = pipe(new Date(), (d: Date) => d.getUTCFullYear() - 16)
+
     // canSmoke :: Person => AllowSmoke
     const manCanSmoke = pipe(O.of(maleOf), O.ap(nameOf('Richard Chuo')), O.ap(birthYearOf(1969)))
-    const manCannotSmoke = pipe(O.of(maleOf), O.ap(nameOf('John Doe')), O.ap(birthYearOf(2004)))
+    const manCannotSmoke = pipe(O.of(maleOf), O.ap(nameOf('John Doe')), O.ap(birthYearOf(illegalSmokingBirthYear)))
 
     // Positive case
     pipe(
